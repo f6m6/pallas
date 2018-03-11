@@ -1,47 +1,38 @@
 import moment from 'moment';
 import humanizeDuration from 'humanize-duration';
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 class DaysSinceLastGig extends Component {
   constructor() {
     super();
     this.state = {
-      json: [],
+      daysSinceLastGig: Infinity
     }
 
-    fetch('http://localhost:4000/days-since-last-gig')
+    fetch('http://localhost:4000/last-gig-date')
       .then(response => response.json())
-      .then(json => this.setState({ json }))
-      .then(console.log)
-
+      .then(({lastGigDate}) => this.setState({
+        daysSinceLastGig: humanizeDuration(moment.duration(moment().diff(moment(lastGigDate))), {
+          units: [
+            'y', 'mo', 'w', 'd'
+          ],
+          largest: 2
+        })
+      }));
   }
 
   render() {
-    const rows = this.state.json.map(
-      ({ daysSinceLastGig }) => { 
-      return (<div>
-        <span>Days since last gig: </span>
-        <span>{
-            humanizeDuration(
-              moment.duration(
-                moment(daysSinceLastGig).diff(moment())
-              ), { units: ['y', 'mo', 'w', 'd'], largest: 2 })
-
-          }
-        </span>
-      </div>);
-    });
+    const {daysSinceLastGig} = this.state;
 
     return (
       <div>
-        <table>
-          <tbody>
-            {rows}
-          </tbody>
-        </table>
+        <span>Days since last gig:
+        </span>
+        <span>{daysSinceLastGig}
+        </span>
       </div>
     );
-  }
+  };
 }
 
 export default DaysSinceLastGig;
