@@ -3,6 +3,7 @@ import humanizeDuration from 'humanize-duration';
 import Datetime from 'react-datetime';
 import React, {Component} from 'react';
 import styles from './NewSessionForm.css';
+import { baseUrl } from '../utils/api';
 
 export default class NewSessionForm extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ export default class NewSessionForm extends Component {
       sessionTypes: []
     };
 
-    fetch('http://192.168.0.6:4000/session-types')
+    fetch(`${baseUrl}/session-types`)
       .then(response => response.json())
       .then(json => this.setState({sessionTypes: json, value: json[0].name}))
 
@@ -31,7 +32,7 @@ export default class NewSessionForm extends Component {
   handleSubmit(event) {
     alert('Your favorite flavor is: ' + this.state.value);
 
-    fetch('http://192.168.0.6:4000/create-session-or-performance', {
+    fetch(`${baseUrl}/create-session-or-performance`, {
       body: JSON.stringify(this.state.value), // must match 'Content-Type' header
       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
       credentials: 'same-origin', // include, same-origin, *omit

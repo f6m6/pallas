@@ -1,5 +1,6 @@
 import moment from 'moment';
 import humanizeDuration from 'humanize-duration';
+import {baseUrl} from '../utils/api';
 import React, {Component} from 'react';
 
 class WhenWasLastGig extends Component {
@@ -9,7 +10,7 @@ class WhenWasLastGig extends Component {
       whenWasLastGigHumanized: Infinity
     }
 
-    fetch('http://192.168.0.6:4000/last-gig-date')
+    fetch(`${baseUrl}/last-gig-date`)
       .then(response => response.json())
       .then(({lastGigDate}) => this.setState({
         whenWasLastGigHumanized: humanizeDuration(moment.duration(moment().diff(moment(lastGigDate))), {

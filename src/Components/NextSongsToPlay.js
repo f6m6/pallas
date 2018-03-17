@@ -1,3 +1,4 @@
+import {baseUrl} from '../utils/api';
 import moment from 'moment';
 import humanizeDuration from 'humanize-duration';
 import React, {Component} from 'react';
@@ -9,7 +10,7 @@ class NextSongsToPlay extends Component {
       json: []
     }
 
-    fetch('http://192.168.0.6:4000/next-songs-to-play')
+    fetch(`${baseUrl}/next-songs-to-play`)
       .then(response => response.json())
       .then(json => this.setState({json}))
 

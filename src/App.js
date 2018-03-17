@@ -4,9 +4,11 @@ import './App.css';
 import NextSongsToPlay from './Components/NextSongsToPlay';
 import WhenWasLastGig from './Components/WhenWasLastGig';
 import NewSessionForm from './Components/NewSessionForm';
+import { baseUrl } from './utils/api';
 
 class App extends Component {
   constructor() {
+    console.log(`baseUrl = ${baseUrl}`)
     super();
     this.state = {
       counts: [],
@@ -23,7 +25,7 @@ class App extends Component {
     }
 
     console.log('hey')
-    fetch('http://192.168.0.6:4000/normalised-count-per-day').then(function (response) {
+    fetch(`${baseUrl}/normalised-count-per-day`).then(function (response) {
       console.log('hey2', response.body)
       return response.json()
     }).then((json) => {
