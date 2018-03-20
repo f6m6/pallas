@@ -4,7 +4,8 @@ import './App.css';
 import NextSongsToPlay from './Components/NextSongsToPlay';
 import WhenWasLastGig from './Components/WhenWasLastGig';
 import NewSessionForm from './Components/NewSessionForm';
-import { baseUrl } from './utils/api';
+import {baseUrl} from './utils/api';
+import moment from 'moment';
 
 class App extends Component {
   constructor() {
@@ -12,28 +13,17 @@ class App extends Component {
     super();
     this.state = {
       counts: [],
-      startDate: undefined,
-      endDate: new Date(),
-      everythingCounts: [
-        {
-          date: '3-3-2018',
-          count: 100
-        }
-      ],
-      everythingStartDate: undefined,
-      everythingEndDate: new Date()
+      startDate: moment()
+        .subtract(5, 'weeks')
+        .toDate(),
+      endDate: new Date()
     }
 
     console.log('hey')
     fetch(`${baseUrl}/normalised-count-per-day`).then(function (response) {
-      console.log('hey2', response.body)
       return response.json()
     }).then((json) => {
-      console.log('he3')
-
-      console.log(json)
-      const startDate = new Date(json[0].date);
-      this.setState({counts: json, startDate});
+      this.setState({counts: json});
     });
   }
   render() {
@@ -43,18 +33,24 @@ class App extends Component {
         <NextSongsToPlay/>
         <div>
           <h1>Heatmap of time spent on music</h1>
-          <CalendarHeatmap
-            startDate={this.state.startDate}
-            endDate={this.state.endDate}
-            values={this.state.counts}
-            classForValue={(value) => {
-            if (!value) {
-              return 'color-empty';
-            }
-            return `color-scale-${value.count}`;
-          }}/>
+          <div style={{
+            width: 300
+          }}>
+            <CalendarHeatmap
+              startDate={this.state.startDate}
+              endDate={this.state.endDate}
+              values={this.state.counts}
+              showOutOfRangeDays
+              showMonthLabels={false}
+              classForValue={(value) => {
+              if (!value) {
+                return 'color-empty';
+              }
+              return `color-scale-${value.count}`;
+            }}/>
+          </div>
         </div>
-        <NewSessionForm />
+        <NewSessionForm/>
       </div>
     );
   }
