@@ -27,9 +27,10 @@ class NextSongsToPlay extends Component {
             <td>{count}</td>
             <td>{humanizeDuration(moment.duration(moment(last_played).diff(moment())), {
                 units: [
-                  'y', 'mo', 'w', 'd'
+                  'y', 'mo', 'w', 'd',
                 ],
-                largest: 2
+                largest: 2,
+                round: true,
               })
 }</td>
           </tr>
