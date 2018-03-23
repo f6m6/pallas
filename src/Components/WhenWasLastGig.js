@@ -17,7 +17,8 @@ class WhenWasLastGig extends Component {
           units: [
             'y', 'mo', 'w', 'd'
           ],
-          largest: 2
+          largest: 2,
+          round: true,
         })
       }));
   }

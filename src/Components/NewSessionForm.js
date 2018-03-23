@@ -1,5 +1,3 @@
-import moment from 'moment';
-import humanizeDuration from 'humanize-duration';
 import Datetime from 'react-datetime';
 import React, {Component} from 'react';
 import styles from './NewSessionForm.css';

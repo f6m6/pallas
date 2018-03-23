@@ -27,10 +27,10 @@ class NextSongsToPlay extends Component {
             <td>{count}</td>
             <td>{humanizeDuration(moment.duration(moment(last_played).diff(moment())), {
                 units: [
-                  'y', 'mo', 'w', 'd',
+                  'y', 'mo', 'w', 'd'
                 ],
                 largest: 2,
-                round: true,
+                round: true
               })
 }</td>
           </tr>
@@ -42,9 +42,9 @@ class NextSongsToPlay extends Component {
         <table>
           <tbody>
             <tr>
-              <td>Title</td>
-              <td>Plays</td>
-              <td>Last played</td>
+              <td><b>Title</b></td>
+              <td><b>Plays</b></td>
+              <td><b>Last played</b></td>
             </tr>
             {rows}
           </tbody>
