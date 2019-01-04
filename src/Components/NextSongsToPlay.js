@@ -17,13 +17,15 @@ class NextSongsToPlay extends Component {
   }
 
   render() {
+    const coverStyle = { color: "green" }
+
     const rows = this
       .state
       .json
-      .map(({title, count, last_played}) => {
+      .map(({title, count, last_played, cover}) => {
         return (
           <tr key={title}>
-            <td>{title}</td>
+            <td style={cover ? coverStyle : null}>{title}</td>
             <td>{count}</td>
             <td>{humanizeDuration(moment.duration(moment(last_played).diff(moment())), {
                 units: [
