@@ -1,5 +1,5 @@
 import Datetime from 'react-datetime';
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import styles from './NewSessionForm.css';
 import { baseUrl } from '../utils/api';
 
@@ -13,7 +13,7 @@ export default class NewSessionForm extends Component {
 
     fetch(`${baseUrl}/session-types`)
       .then(response => response.json())
-      .then(json => this.setState({sessionTypes: json, value: json[0].name}))
+      .then(json => this.setState({ sessionTypes: json, value: json[0].name }))
 
     this.handleChange = this
       .handleChange
@@ -59,9 +59,9 @@ export default class NewSessionForm extends Component {
               ))}
           </select>
           <div />
-          <label>Start: </label><Datetime/>
-          <label>End: </label><Datetime/>
-          <input type="submit" value="Submit"/>
+          <label>Start: </label><Datetime />
+          <label>End: </label><Datetime />
+          <input type="submit" value="Submit" />
         </form>
       </div>
     );

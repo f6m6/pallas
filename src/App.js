@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import CalendarHeatmap from 'react-calendar-heatmap';
 import './App.css';
 import NextSongsToPlay from './Components/NextSongsToPlay';
 import WhenWasLastGig from './Components/WhenWasLastGig';
 import NewSessionForm from './Components/NewSessionForm';
-import {baseUrl} from './utils/api';
+import { baseUrl } from './utils/api';
 import moment from 'moment';
 
 class App extends Component {
@@ -23,14 +23,14 @@ class App extends Component {
     fetch(`${baseUrl}/normalised-count-per-day`).then(function (response) {
       return response.json()
     }).then((json) => {
-      this.setState({counts: json});
+      this.setState({ counts: json });
     });
   }
   render() {
     return (
       <div className="App">
-        <WhenWasLastGig/>
-        <NextSongsToPlay/>
+        <WhenWasLastGig />
+        <NextSongsToPlay />
         <div>
           <h1>Heatmap of time spent on music</h1>
           <div style={{
@@ -43,14 +43,14 @@ class App extends Component {
               showOutOfRangeDays
               showMonthLabels={false}
               classForValue={(value) => {
-              if (!value) {
-                return 'color-empty';
-              }
-              return `color-scale-${value.count}`;
-            }}/>
+                if (!value) {
+                  return 'color-empty';
+                }
+                return `color-scale-${value.count}`;
+              }} />
           </div>
         </div>
-        <NewSessionForm/>
+        <NewSessionForm />
       </div>
     );
   }
