@@ -17,20 +17,20 @@ class App extends Component {
       endDate: new Date(),
     }
 
-    fetch(`${baseUrl}/normalised-count-per-day`)
-      .then(function (response) {
-        return response.json()
-      })
-      .then((json) => {
-        this.setState({ counts: json })
-      })
+    // fetch(`${baseUrl}/normalised-count-per-day`)
+    //   .then(function (response) {
+    //     return response.json()
+    //   })
+    //   .then((json) => {
+    //     this.setState({ counts: json })
+    //   })
   }
   render() {
     return (
       <div className="App">
         <NextSongsToPlay />
         <br />
-        <div>
+        {/* <div>
           <h1>Heatmap of time spent on music</h1>
           <div
             style={{
@@ -51,7 +51,7 @@ class App extends Component {
               }}
             />
           </div>
-        </div>
+        </div> */}
         <hr />
         <WhenWasLastGig />
         <br />
