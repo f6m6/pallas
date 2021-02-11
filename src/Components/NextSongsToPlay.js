@@ -1,59 +1,100 @@
-import { baseUrl } from '../utils/api';
-import moment from 'moment';
-import humanizeDuration from 'humanize-duration';
-import React, { Component } from 'react';
+import React, { Component } from "react"
+import moment from "moment"
+import humanizeDuration from "humanize-duration"
+import { Table, Tag } from "antd"
+
+import { baseUrl } from "../utils/api"
 
 class NextSongsToPlay extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
-      json: []
+      json: [],
     }
 
     fetch(`${baseUrl}/next-songs-to-play`)
-      .then(response => response.json())
-      .then(json => this.setState({ json }))
-
+      .then((response) => response.json())
+      .then((json) =>
+        this.setState({
+          rows: json.map(({ title, key: keySignature, ...rest }) => ({
+            key: Math.random(),
+            keySignature,
+            title,
+            ...rest,
+          })),
+        })
+      )
   }
 
   render() {
-    const coverStyle = { color: "green" }
-
-    const rows = this
-      .state
-      .json
-      .map(({ title, count, last_played, cover }) => {
-        return (
-          <tr key={title}>
-            <td style={cover ? coverStyle : null}>{title}</td>
-            <td>{count}</td>
-            <td>{humanizeDuration(moment.duration(moment(last_played).diff(moment())), {
-              units: [
-                'y', 'mo', 'w', 'd'
-              ],
-              largest: 2,
-              round: true
-            })
-            }</td>
-          </tr>
-        );
-      });
+    // TODO: make covers green again
 
     return (
-      <div>
-        <table>
-          <tbody>
-            <tr>
-              <td><b>Title</b></td>
-              <td><b>Plays</b></td>
-              <td><b>Last played</b></td>
-            </tr>
-            {rows}
-          </tbody>
-        </table>
-      </div>
-    );
+      <>
+        <h1>Songs Performed</h1>
+
+        <Table
+          pagination={false}
+          dataSource={this.state.rows}
+          columns={[
+            {
+              title: "Name",
+              dataIndex: "title",
+              key: "title",
+              sorter: (a, b) => a.title.localeCompare(b.title),
+            },
+            {
+              title: "Cover",
+              dataIndex: "cover",
+              key: "cover",
+              render: (cover) =>
+                cover ? (
+                  <Tag color="success">Cover</Tag>
+                ) : (
+                  <Tag color="processing">Original</Tag>
+                ),
+              filters: [
+                {
+                  text: "Cover",
+                  value: true,
+                },
+                {
+                  text: "Original",
+                  value: false,
+                },
+              ],
+              onFilter: (isCover, song) => song.cover === isCover,
+            },
+            {
+              title: "Plays",
+              dataIndex: "count",
+              key: "count",
+              sorter: (a, b) => parseInt(a.count, 10) - parseInt(b.count, 10),
+              defaultSortOrder: "descend",
+            },
+            {
+              title: "Last Played",
+              dataIndex: "last_played",
+              key: "last_played",
+              render: (last_played) =>
+                humanizeDuration(
+                  moment.duration(moment(last_played).diff(moment())),
+                  {
+                    units: ["y", "mo", "w", "d"],
+                    largest: 2,
+                    round: true,
+                  }
+                ),
+              sorter: (a, b) =>
+                moment
+                  .duration(moment(a.last_played).diff(moment(b.last_played)))
+                  .asSeconds(),
+            },
+          ]}
+        />
+      </>
+    )
   }
 }
 
-export default NextSongsToPlay;
+export default NextSongsToPlay
